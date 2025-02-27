@@ -119,9 +119,9 @@ If you use this code in your research, please cite:
 
 ```
 @software{encoded_reasoning_detector,
-  author = {Your Name},
+  author = {Guangyu Chen},
   title = {Encoded Reasoning Detector},
-  year = {2023},
+  year = {2025},
   url = {https://github.com/yourusername/encoded_reasoning_detector}
 }
 ``` 
