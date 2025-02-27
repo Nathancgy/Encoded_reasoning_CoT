@@ -2,6 +2,7 @@ import torch
 from transformer_lens import HookedTransformer
 from typing import List, Dict, Any, Tuple, Optional, Union
 import numpy as np
+from tqdm import tqdm
 
 class ActivationExtractor:
     """
