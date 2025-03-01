@@ -10,7 +10,7 @@ class ActivationExtractor:
     """
     def __init__(
         self, 
-        model_name: str = "Qwen/Qwen1.5-1.8B",
+        model_name: str = "gpt2",
         device: str = "cuda" if torch.cuda.is_available() else "cpu",
         hook_points: Optional[List[str]] = None
     ):
@@ -26,11 +26,30 @@ class ActivationExtractor:
         self.device = device
         # Use TransformerLens to load the model
         print(f"Loading model {model_name}...")
-        self.model = HookedTransformer.from_pretrained(
-            model_name,
-            device=device
-        )
-        print(f"Model loaded with {self.model.cfg.n_layers} layers.")
+        try:
+            self.model = HookedTransformer.from_pretrained(
+                model_name,
+                device=device
+            )
+            print(f"Model loaded with {self.model.cfg.n_layers} layers.")
+        except Exception as e:
+            print(f"Error loading model: {e}")
+            print("Trying with additional parameters...")
+            try:
+                # Try with additional parameters that might help with certain models
+                self.model = HookedTransformer.from_pretrained(
+                    model_name,
+                    device=device,
+                    dtype=torch.float32,  # Use float32 to avoid precision issues
+                    fold_ln=False,  # Don't fold LayerNorm parameters
+                    center_writing_weights=False,  # Don't center weights
+                    center_unembed=False  # Don't center unembed
+                )
+                print(f"Model loaded with {self.model.cfg.n_layers} layers.")
+            except Exception as e:
+                print(f"Failed to load model: {e}")
+                print("Please check your internet connection or try a different model.")
+                raise
         
         # Set default hook points if not specified
         if hook_points is None:

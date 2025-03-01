@@ -19,7 +19,8 @@ def main():
     print("=== Encoded Reasoning Detection Demo ===")
     
     # Configuration
-    model_name = "Qwen/Qwen1.5-1.8B"  # Small model for quick testing
+    model_name = "gpt2"  # Smaller model for easier download
+    # model_name = "Qwen/Qwen1.5-1.8B"  # Original model (commented out)
     num_problems = 10  # Small dataset for demo
     feature_dim = 64  # Small feature dimension
     epochs = 5  # Minimal training
